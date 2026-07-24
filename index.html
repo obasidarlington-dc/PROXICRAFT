@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1A56DB">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="ProxiCraft">
+  <meta name="description" content="ProxiCraft - Nigeria's mobile job-matching platform for skilled artisans and employers">
+  <link rel="manifest" href="manifest.json">
+  <title>ProxiCraft</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- SPLASH SCREEN -->
+  <div id="splashScreen" class="screen active">
+    <div class="splash-content">
+      <div class="splash-icon">&#128295;</div>
+      <h1 class="splash-title">ProxiCraft</h1>
+      <p class="splash-tagline">Connect. Work. Thrive.</p>
+      <div class="splash-bar"><div class="splash-bar-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- ONBOARDING SCREEN -->
+  <div id="onboardScreen" class="screen">
+    <div class="onboard-wrap">
+      <div class="onboard-hero">
+        <div class="onboard-icon">&#128295;</div>
+        <h2>Welcome to ProxiCraft</h2>
+        <p>Nigeria's trusted platform connecting skilled artisans with employers.</p>
+      </div>
+      <div class="role-cards">
+        <button class="role-card artisan-card" onclick="selectRole('artisan')">
+          <span class="rc-icon">&#128119;</span>
+          <span class="rc-title">I Am an Artisan</span>
+          <span class="rc-desc">Find jobs and earn income</span>
+        </button>
+        <button class="role-card client-card" onclick="selectRole('client')">
+          <span class="rc-icon">&#127970;</span>
+          <span class="rc-title">I Need to Hire</span>
+          <span class="rc-desc">Post jobs and hire skilled workers</span>
+        </button>
+      </div>
+      <p class="login-prompt">Already have an account? <a href="#" onclick="goToLogin();return false;">Log in here</a></p>
+    </div>
+  </div>
+
+  <!-- AUTH SCREEN -->
+  <div id="authScreen" class="screen">
+    <div class="auth-top">
+      <button class="back-btn" onclick="showScreen('onboard')">&#8592; Back</button>
+      <h2 id="authHeading">Create Account</h2>
+    </div>
+    <div class="auth-tabs">
+      <button id="tabReg" class="atab active" onclick="switchAuth('reg')">Register</button>
+      <button id="tabLog" class="atab" onclick="switchAuth('log')">Log In</button>
+    </div>
+    <div class="auth-body">
+      <!-- REGISTER FORM -->
+      <div id="regForm">
+        <div class="fgroup"><label>First Name</label>
+          <input type="text" id="rFirst" placeholder="First name"></div>
+        <div class="fgroup"><label>Last Name</label>
+          <input type="text" id="rLast" placeholder="Last name"></div>
+        <div class="fgroup"><label>Email Address</label>
+          <input type="email" id="rEmail" placeholder="Your email address"></div>
+        <div class="fgroup"><label>Phone Number</label>
+          <input type="tel" id="rPhone" placeholder="e.g. 08012345678"></div>
+        <div class="fgroup"><label>City</label>
+          <select id="rCity">
+            <option value="">Select city</option>
+            <option>Lagos</option><option>Abuja</option><option>Port Harcourt</option>
+            <option>Ibadan</option><option>Enugu</option><option>Kano</option>
+            <option>Kaduna</option><option>Benin City</option>
+          </select>
+        </div>
+        <div id="artisanFields">
+          <div class="fgroup"><label>Skill / Trade Category</label>
+            <select id="rCategory">
+              <option value="">Select your trade</option>
+              <option>Electrical</option><option>Plumbing</option><option>Carpentry</option>
+              <option>Painting</option><option>Automobile</option><option>Cleaning</option>
+              <option>Masonry</option><option>Welding</option><option>Other</option>
+            </select>
+          </div>
+          <div class="fgroup"><label>Daily Rate (&#8358;)</label>
+            <input type="number" id="rRate" placeholder="e.g. 10000"></div>
+        </div>
+        <div id="clientFields" style="display:none">
+          <div class="fgroup"><label>Business / Organisation Name (Optional)</label>
+            <input type="text" id="rBusiness" placeholder="Your company or organisation"></div>
+        </div>
+        <div class="fgroup"><label>Password</label>
+          <input type="password" id="rPass" placeholder="Create a password (min 6 characters)"></div>
+        <div class="fgroup"><label>Confirm Password</label>
+          <input type="password" id="rConfirm" placeholder="Repeat your password"></div>
+        <div id="regErr" class="ferr"></div>
+        <button class="btn-primary" onclick="handleRegister()">Create Account</button>
+        <div class="auth-switch">Have an account? <a href="#" onclick="switchAuth('log');return false;">Log in</a></div>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div id="logForm" style="display:none">
+        <div class="fgroup"><label>Email Address</label>
+          <input type="email" id="lEmail" placeholder="Your email address"></div>
+        <div class="fgroup"><label>Password</label>
+          <input type="password" id="lPass" placeholder="Your password"></div>
+        <div id="logErr" class="ferr"></div>
+        <button class="btn-primary" onclick="handleLogin()">Log In</button>
+        <div class="auth-switch">New user? <a href="#" onclick="switchAuth('reg');return false;">Register here</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div id="mainApp" class="screen" style="display:none">
+    <header class="app-header">
+      <div class="hdr-left">
+        <span class="hdr-icon">&#128295;</span>
+        <span class="hdr-name">ProxiCraft</span>
+      </div>
+      <div class="hdr-right">
+        <span id="hdrBadge" class="role-badge"></span>
+      </div>
+    </header>
+
+    <div class="page-area">
+
+      <!-- HOME PAGE -->
+      <div id="homePage" class="page active">
+        <div class="greeting-card">
+          <div>
+            <div id="greetMsg" class="greet-msg">Good morning!</div>
+            <div id="greetName" class="greet-name">Welcome back</div>
+          </div>
+          <div class="greet-emoji">&#128075;</div>
+        </div>
+        <div class="section-hdr">
+          <span class="section-title">Latest Jobs</span>
+          <span id="jobCountBadge" class="count-badge">8 jobs</span>
+        </div>
+        <div id="homeGrid" class="job-grid"></div>
+      </div>
+
+      <!-- SEARCH PAGE -->
+      <div id="searchPage" class="page">
+        <div class="search-wrap">
+          <input id="searchInput" class="search-input" type="text"
+            placeholder="Search jobs by title or trade..." oninput="filterJobs()">
+        </div>
+        <div class="filter-row">
+          <select id="catFilter" onchange="filterJobs()">
+            <option value="">All Categories</option>
+            <option>Electrical</option><option>Plumbing</option><option>Carpentry</option>
+            <option>Painting</option><option>Automobile</option><option>Cleaning</option>
+            <option>Masonry</option><option>Welding</option>
+          </select>
+          <select id="locFilter" onchange="filterJobs()">
+            <option value="">All Locations</option>
+            <option>Lagos</option><option>Abuja</option><option>Port Harcourt</option>
+            <option>Ibadan</option><option>Enugu</option>
+          </select>
+        </div>
+        <div id="searchInfo" class="search-info"></div>
+        <div id="searchGrid" class="job-grid"></div>
+      </div>
+
+      <!-- WORK PAGE -->
+      <div id="workPage" class="page">
+        <!-- Artisan: My Applications -->
+        <div id="appsPanel">
+          <div class="section-hdr">
+            <span class="section-title">My Applications</span>
+            <span id="appsCount" class="count-badge">0</span>
+          </div>
+          <div id="appsList"></div>
+        </div>
+        <!-- Client: Post Job -->
+        <div id="postPanel" style="display:none">
+          <div class="panel-title">Post a New Job</div>
+          <div class="fgroup"><label>Job Title</label>
+            <input type="text" id="pTitle" placeholder="e.g. Electrician Needed for Office Wiring"></div>
+          <div class="fgroup"><label>Category</label>
+            <select id="pCat">
+              <option value="">Select category</option>
+              <option>Electrical</option><option>Plumbing</option><option>Carpentry</option>
+              <option>Painting</option><option>Automobile</option><option>Cleaning</option>
+              <option>Masonry</option><option>Welding</option>
+            </select>
+          </div>
+          <div class="fgroup"><label>Location</label>
+            <select id="pLoc">
+              <option value="">Select city</option>
+              <option>Lagos</option><option>Abuja</option><option>Port Harcourt</option>
+              <option>Ibadan</option><option>Enugu</option>
+            </select>
+          </div>
+          <div class="fgroup"><label>Budget (&#8358;)</label>
+            <input type="number" id="pBudget" placeholder="e.g. 25000"></div>
+          <div class="fgroup"><label>Duration</label>
+            <input type="text" id="pDuration" placeholder="e.g. 2 days, 1 week"></div>
+          <div class="fgroup"><label>Job Description</label>
+            <textarea id="pDesc" rows="4" placeholder="Describe the work required in detail..."></textarea></div>
+          <div id="postErr" class="ferr"></div>
+          <button class="btn-primary" onclick="handlePostJob()">Post Job</button>
+        </div>
+      </div>
+
+      <!-- PROFILE PAGE -->
+      <div id="profilePage" class="page">
+        <div class="profile-head">
+          <div id="profAvatar" class="prof-avatar"></div>
+          <div class="prof-info">
+            <div id="profName" class="prof-name"></div>
+            <span id="profBadge" class="role-badge"></span>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="detail-row"><span class="dlabel">Email</span><span id="profEmail" class="dval"></span></div>
+          <div class="detail-row"><span class="dlabel">Phone</span><span id="profPhone" class="dval"></span></div>
+          <div class="detail-row"><span class="dlabel">City</span><span id="profCity" class="dval"></span></div>
+          <div id="artisanRow" class="detail-row">
+            <span class="dlabel">Trade</span><span id="profCat" class="dval"></span></div>
+          <div id="clientRow" class="detail-row" style="display:none">
+            <span class="dlabel">Business</span><span id="profBiz" class="dval"></span></div>
+          <div class="detail-row"><span class="dlabel">Member Since</span><span id="profSince" class="dval"></span></div>
+        </div>
+        <div class="stats-row">
+          <div class="stat-box">
+            <div id="s1v" class="stat-num">0</div>
+            <div id="s1l" class="stat-lbl">Applied</div></div>
+          <div class="stat-box">
+            <div id="s2v" class="stat-num">0</div>
+            <div id="s2l" class="stat-lbl">Posted</div></div>
+          <div class="stat-box">
+            <div class="stat-num">Active</div>
+            <div class="stat-lbl">Status</div></div>
+        </div>
+        <button class="btn-logout" onclick="handleLogout()">Log Out</button>
+      </div>
+
+    </div>
+
+    <nav class="bottom-nav">
+      <button id="bnHome" class="bn-btn active" onclick="switchTab('home')">
+        <span class="bn-icon">&#127968;</span><span class="bn-lbl">Home</span></button>
+      <button id="bnSearch" class="bn-btn" onclick="switchTab('search')">
+        <span class="bn-icon">&#128269;</span><span class="bn-lbl">Search</span></button>
+      <button id="bnWork" class="bn-btn" onclick="switchTab('work')">
+        <span id="workIcon" class="bn-icon">&#128203;</span>
+        <span class="bn-lbl" id="workLbl">Applied</span></button>
+      <button id="bnProfile" class="bn-btn" onclick="switchTab('profile')">
+        <span class="bn-icon">&#128100;</span><span class="bn-lbl">Profile</span></button>
+    </nav>
+  </div>
+
+</div>
+
+<!-- Job Detail Modal -->
+<div id="jobModal" class="modal-overlay" onclick="closeModalOverlay(event)" style="display:none">
+  <div class="modal-sheet">
+    <button class="modal-x" onclick="closeModal()">&#10005;</button>
+    <div id="modalBody" class="modal-body"></div>
+  </div>
+</div>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
