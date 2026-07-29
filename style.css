@@ -35,7 +35,8 @@ textarea{resize:vertical}
 @keyframes fill{from{width:0}to{width:100%}}
 
 /* ===== 2. WELCOME ===== */
-#welcomeScreen{background:linear-gradient(160deg,#1A56DB 0%,#072054 100%);justify-content:space-between;overflow:hidden}
+/* overflow-y:auto so buttons are reachable on small screens (iPhone SE etc.) */
+#welcomeScreen{background:linear-gradient(160deg,#1A56DB 0%,#072054 100%);justify-content:space-between;overflow-y:auto}
 .welcome-top{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 24px 20px;text-align:center;color:#fff}
 .w-logo-wrap{width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
 .w-logo{font-size:44px}
@@ -78,6 +79,10 @@ textarea{resize:vertical}
 .terms-row{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--sub);margin:12px 0 14px;line-height:1.5}
 .terms-row input{margin-top:3px;flex-shrink:0}
 .form-switch{text-align:center;font-size:14px;color:var(--sub);margin-top:12px}
+/* Link-style buttons replacing all <a href="#"> */
+.link-btn{background:none;border:none;color:var(--blue);font-size:inherit;font-weight:600;cursor:pointer;padding:0;text-decoration:underline;display:inline}
+.link-btn-sm{font-size:13px;color:var(--sub);text-decoration:none}
+.av-change-btn{background:#EFF6FF;border:none;color:var(--blue);font-size:13px;font-weight:600;padding:8px 16px;border-radius:8px;cursor:pointer}
 
 /* ===== 4. LOGIN ===== */
 #loginScreen{background:var(--bg)}
