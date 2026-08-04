@@ -9,17 +9,13 @@
   <link rel="manifest" href="manifest.json">
   <title>ProxiCraft</title>
   <link rel="stylesheet" href="style.css">
-
-  <!-- Firebase SDK v9 (compat) – loaded from Google CDN -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <!-- Your Firebase project credentials (MUST be configured) -->
   <script src="firebase-config.js"></script>
 </head>
 <body>
 
-<!-- Full-screen loading overlay (shown during Firebase operations) -->
 <div id="loadingOverlay" class="loading-overlay">
   <div class="spinner"></div>
   <p class="loading-text">Please wait...</p>
@@ -27,7 +23,7 @@
 
 <div id="app">
 
-<!-- ===== 1. SPLASH ===== -->
+<!-- SPLASH -->
 <div id="splashScreen" class="screen active">
   <div class="splash-inner">
     <div class="splash-icon">&#128295;</div>
@@ -37,7 +33,7 @@
   </div>
 </div>
 
-<!-- ===== 2. WELCOME ===== -->
+<!-- WELCOME -->
 <div id="welcomeScreen" class="screen">
   <div class="welcome-top">
     <div class="w-logo-wrap"><span class="w-logo">&#128295;</span></div>
@@ -67,7 +63,7 @@
   </div>
 </div>
 
-<!-- ===== 3. REGISTER ===== -->
+<!-- REGISTER -->
 <div id="registerScreen" class="screen">
   <div class="screen-hdr">
     <button type="button" class="back-btn" id="btnRegBack">&#8592; Back</button>
@@ -82,7 +78,6 @@
       </div>
       <input type="file" id="rPhoto" accept="image/*" style="display:none">
     </div>
-
     <div class="form-section-label">Personal Information</div>
     <div class="frow">
       <div class="fgroup"><label>First Name *</label><input type="text" id="rFirst" placeholder="First name"></div>
@@ -90,10 +85,8 @@
     </div>
     <div class="fgroup"><label>Username * <span class="hint-label">Unique, no spaces</span></label>
       <input type="text" id="rUsername" placeholder="e.g. emeka_artisan"></div>
-    <div class="fgroup"><label>Email Address *</label>
-      <input type="email" id="rEmail" placeholder="Your email address"></div>
-    <div class="fgroup"><label>Phone Number *</label>
-      <input type="tel" id="rPhone" placeholder="e.g. 08012345678"></div>
+    <div class="fgroup"><label>Email Address *</label><input type="email" id="rEmail" placeholder="Your email address"></div>
+    <div class="fgroup"><label>Phone Number *</label><input type="tel" id="rPhone" placeholder="e.g. 08012345678"></div>
     <div class="fgroup"><label>City *</label>
       <select id="rCity">
         <option value="">-- Select your city --</option>
@@ -104,19 +97,16 @@
         <option value="Warri">Warri</option>
       </select>
     </div>
-
     <div id="artisanFields">
       <div class="form-section-label">Trade Information</div>
-      <div class="fgroup"><label>Highest Qualification * <span class="hint-label hint-red">Minimum: SSCE/WAEC</span></label>
+      <div class="fgroup"><label>Highest Qualification * <span class="hint-label hint-red">Min SSCE/WAEC</span></label>
         <select id="rQual">
           <option value="">-- Select qualification --</option>
           <option value="none">None (Below SSCE) — Not eligible</option>
           <option value="ssce">SSCE / WAEC / NECO</option>
           <option value="nabteb">NABTEB Certificate</option>
-          <option value="ond">OND (Ordinary National Diploma)</option>
-          <option value="hnd">HND (Higher National Diploma)</option>
-          <option value="bsc">BSc / B.Tech or equivalent</option>
-          <option value="msc">MSc / M.Tech or equivalent</option>
+          <option value="ond">OND</option><option value="hnd">HND</option>
+          <option value="bsc">BSc / B.Tech</option><option value="msc">MSc / M.Tech</option>
           <option value="other">Other Equivalent</option>
         </select>
       </div>
@@ -141,28 +131,20 @@
         </div>
       </div>
     </div>
-
     <div id="clientFields" style="display:none">
       <div class="form-section-label">Business Information</div>
       <div class="fgroup"><label>Business / Organisation Name <span class="hint-label">Optional</span></label>
         <input type="text" id="rBusiness" placeholder="Your company or organisation"></div>
     </div>
-
     <div class="form-section-label">Password</div>
-    <div class="fgroup"><label>Password * <span class="hint-label">Minimum 8 characters</span></label>
-      <div class="pw-wrap">
-        <input type="password" id="rPass" placeholder="Create a strong password">
-        <button type="button" class="pw-eye" id="eyeRPass">&#128065;</button>
-      </div>
+    <div class="fgroup"><label>Password * <span class="hint-label">Min 8 characters</span></label>
+      <div class="pw-wrap"><input type="password" id="rPass" placeholder="Create a password">
+        <button type="button" class="pw-eye" id="eyeRPass">&#128065;</button></div>
     </div>
     <div class="fgroup"><label>Confirm Password *</label>
-      <div class="pw-wrap">
-        <input type="password" id="rConfirm" placeholder="Repeat your password">
-        <button type="button" class="pw-eye" id="eyeRConfirm">&#128065;</button>
-      </div>
+      <div class="pw-wrap"><input type="password" id="rConfirm" placeholder="Repeat password">
+        <button type="button" class="pw-eye" id="eyeRConfirm">&#128065;</button></div>
     </div>
-
-    <!-- Terms: button is OUTSIDE the label (no accidental checkbox toggle) -->
     <div class="terms-row">
       <input type="checkbox" id="rTerms">
       <label for="rTerms">I have read and agree to the Terms and Conditions</label>
@@ -171,12 +153,11 @@
     <div id="regErr" class="ferr"></div>
     <button type="button" class="btn-primary" id="btnRegister">Create Account</button>
     <div class="form-switch">Already have an account?
-      <button type="button" class="link-btn" id="btnRegToLogin">Sign in</button>
-    </div>
+      <button type="button" class="link-btn" id="btnRegToLogin">Sign in</button></div>
   </div>
 </div>
 
-<!-- ===== 4. LOGIN ===== -->
+<!-- LOGIN -->
 <div id="loginScreen" class="screen">
   <div class="screen-hdr">
     <button type="button" class="back-btn" id="btnLoginBack">&#8592; Back</button>
@@ -185,19 +166,15 @@
   <div class="screen-body">
     <div class="login-brand"><span class="login-logo">&#128295;</span><span class="login-name">ProxiCraft</span></div>
     <div id="adminSetupBanner" class="setup-banner" style="display:none">
-      &#9888; No admin account found. Enter the admin setup code below to create one.
+      &#9888; No admin account yet. Enter the admin setup code below to create one.
     </div>
-    <div class="fgroup"><label>Email Address *</label>
-      <input type="email" id="lEmail" placeholder="Your registered email"></div>
+    <div class="fgroup"><label>Email Address *</label><input type="email" id="lEmail" placeholder="Your email"></div>
     <div class="fgroup"><label>Password *</label>
-      <div class="pw-wrap">
-        <input type="password" id="lPass" placeholder="Your password">
-        <button type="button" class="pw-eye" id="eyeLPass">&#128065;</button>
-      </div>
+      <div class="pw-wrap"><input type="password" id="lPass" placeholder="Your password">
+        <button type="button" class="pw-eye" id="eyeLPass">&#128065;</button></div>
     </div>
-    <!-- Admin setup code (only shown if no admin exists) -->
     <div id="adminSetupRow" style="display:none">
-      <div class="fgroup"><label>Admin Setup Code * <span class="hint-label">Required for first admin only</span></label>
+      <div class="fgroup"><label>Admin Setup Code * <span class="hint-label">First admin only</span></label>
         <input type="text" id="adminCode" placeholder="Enter admin setup code"></div>
     </div>
     <div id="logErr" class="ferr"></div>
@@ -205,37 +182,29 @@
     <div id="adminSetupBtn" style="display:none">
       <button type="button" class="btn-secondary" id="btnCreateAdmin">Create Admin Account</button>
     </div>
-    <div class="form-switch">
-      <button type="button" class="link-btn" id="btnGoForgot">Forgot your password?</button>
-    </div>
+    <div class="form-switch"><button type="button" class="link-btn" id="btnGoForgot">Forgot your password?</button></div>
     <div class="form-switch">New to ProxiCraft?
-      <button type="button" class="link-btn" id="btnLoginToWelcome">Create an account</button>
-    </div>
+      <button type="button" class="link-btn" id="btnLoginToWelcome">Create an account</button></div>
   </div>
 </div>
 
-<!-- ===== 5. FORGOT PASSWORD ===== -->
+<!-- FORGOT PASSWORD -->
 <div id="forgotScreen" class="screen">
   <div class="screen-hdr">
-    <button type="button" class="back-btn" id="btnForgotBack">&#8592; Back to Sign In</button>
+    <button type="button" class="back-btn" id="btnForgotBack">&#8592; Back</button>
     <h2>Reset Password</h2>
   </div>
   <div class="screen-body">
-    <p class="step-info">Enter the email address linked to your account. We will send you a secure link to reset your password.</p>
-    <div class="fgroup"><label>Email Address *</label>
-      <input type="email" id="fEmail" placeholder="Your registered email"></div>
+    <p class="step-info">Enter your email address. We will send a secure reset link.</p>
+    <div class="fgroup"><label>Email Address *</label><input type="email" id="fEmail" placeholder="Your registered email"></div>
     <div id="fErr" class="ferr"></div>
-    <div id="fSuccess" class="success-msg" style="display:none">
-      &#10003; Password reset email sent! Check your inbox and follow the link.
-    </div>
+    <div id="fSuccess" class="success-msg" style="display:none">&#10003; Reset email sent! Check your inbox.</div>
     <button type="button" class="btn-primary" id="btnSendReset">Send Reset Link</button>
-    <div class="form-switch">
-      <button type="button" class="link-btn" id="btnResetToLogin">Back to Sign In</button>
-    </div>
+    <div class="form-switch"><button type="button" class="link-btn" id="btnResetToLogin">Back to Sign In</button></div>
   </div>
 </div>
 
-<!-- ===== 6. MAIN APP ===== -->
+<!-- MAIN APP -->
 <div id="mainApp" class="screen">
   <header class="app-hdr">
     <div class="hdr-l"><span class="hdr-ico">&#128295;</span><span class="hdr-nm">ProxiCraft</span></div>
@@ -243,6 +212,7 @@
   </header>
   <div class="page-area">
 
+    <!-- HOME -->
     <div id="homePage" class="page active">
       <div class="greet-card">
         <div><div id="greetMsg" class="g-hi">Good morning!</div><div id="greetName" class="g-name">Welcome</div></div>
@@ -251,13 +221,14 @@
       <div id="catNotice" class="cat-notice" style="display:none"></div>
       <div class="s-hdr">
         <span class="s-ttl">Available Jobs</span>
-        <span id="homeCount" class="cnt-badge">0 jobs</span>
+        <span id="homeCount" class="cnt-badge">...</span>
       </div>
       <div id="homeGrid" class="job-grid"></div>
     </div>
 
+    <!-- SEARCH -->
     <div id="searchPage" class="page">
-      <div class="srch-box"><input id="srchInput" type="text" class="srch-in" placeholder="&#128269; Search jobs by title..."></div>
+      <div class="srch-box"><input id="srchInput" type="text" class="srch-in" placeholder="&#128269; Search jobs..."></div>
       <div class="filter-row">
         <select id="catFilter">
           <option value="">All Categories</option>
@@ -279,18 +250,27 @@
       <div id="srchGrid" class="job-grid"></div>
     </div>
 
+    <!-- WORK -->
     <div id="workPage" class="page">
+      <!-- Artisan: My Applications -->
       <div id="appsPanel">
-        <div class="s-hdr"><span class="s-ttl">My Applications</span><span id="appsCount" class="cnt-badge">0</span></div>
+        <div class="s-hdr">
+          <span class="s-ttl">My Applications</span>
+          <span id="appsCount" class="cnt-badge">0</span>
+        </div>
         <div id="appsList"></div>
       </div>
+      <!-- Client: Post + My Jobs + Artisan Directory -->
       <div id="postPanel" style="display:none">
         <div class="tab-pills">
           <button type="button" id="ptPost" class="pill active">Post a Job</button>
-          <button type="button" id="ptMy" class="pill">My Jobs</button>
+          <button type="button" id="ptMy"   class="pill">My Jobs</button>
+          <button type="button" id="ptArt"  class="pill">Artisans</button>
         </div>
+        <!-- Post form -->
         <div id="postFormDiv">
-          <div class="fgroup"><label>Job Title *</label><input type="text" id="pTitle" placeholder="e.g. Electrician for Office Wiring"></div>
+          <div class="fgroup"><label>Job Title *</label>
+            <input type="text" id="pTitle" placeholder="e.g. Electrician for Office Wiring"></div>
           <div class="fgroup"><label>Trade Category *</label>
             <select id="pCat">
               <option value="">-- Select category --</option>
@@ -311,18 +291,46 @@
             </select>
           </div>
           <div class="frow">
-            <div class="fgroup"><label>Budget (&#8358;) *</label><input type="number" id="pBudget" placeholder="e.g. 25000" min="500"></div>
-            <div class="fgroup"><label>Duration *</label><input type="text" id="pDuration" placeholder="e.g. 2 days"></div>
+            <div class="fgroup"><label>Budget (&#8358;) *</label>
+              <input type="number" id="pBudget" placeholder="e.g. 25000" min="500"></div>
+            <div class="fgroup"><label>Duration *</label>
+              <input type="text" id="pDuration" placeholder="e.g. 2 days"></div>
           </div>
-          <div class="fgroup"><label>Description *</label><textarea id="pDesc" rows="4" placeholder="Describe the work required..."></textarea></div>
+          <div class="fgroup"><label>Description *</label>
+            <textarea id="pDesc" rows="4" placeholder="Describe the work required..."></textarea></div>
           <label class="check-row"><input type="checkbox" id="pUrgent"> Mark as urgent</label>
           <div id="postErr" class="ferr"></div>
           <button type="button" class="btn-primary" id="btnPostJob">&#128640; Post Job</button>
         </div>
-        <div id="myJobsDiv" style="display:none"><div id="myJobsList" class="job-grid"></div></div>
+        <!-- My jobs -->
+        <div id="myJobsDiv" style="display:none">
+          <div id="myJobsList" class="job-grid"></div>
+        </div>
+        <!-- Artisan directory -->
+        <div id="artDirDiv" style="display:none">
+          <div class="art-dir-filters">
+            <select id="artCatFilter">
+              <option value="">All Trades</option>
+              <option value="Electrical">Electrical</option><option value="Plumbing">Plumbing</option>
+              <option value="Carpentry">Carpentry</option><option value="Painting">Painting</option>
+              <option value="Automobile">Automobile</option><option value="Cleaning">Cleaning</option>
+              <option value="Masonry">Masonry</option><option value="Welding">Welding</option>
+              <option value="Tiling">Tiling</option><option value="Roofing">Roofing</option>
+              <option value="AC Refrigeration">AC / Refrigeration</option>
+            </select>
+            <select id="artCityFilter">
+              <option value="">All Cities</option>
+              <option value="Lagos">Lagos</option><option value="Abuja">Abuja</option>
+              <option value="Port Harcourt">Port Harcourt</option><option value="Ibadan">Ibadan</option>
+              <option value="Enugu">Enugu</option>
+            </select>
+          </div>
+          <div id="artisanDirList"></div>
+        </div>
       </div>
     </div>
 
+    <!-- PROFILE -->
     <div id="profilePage" class="page">
       <div class="prof-top">
         <div class="av-wrap">
@@ -332,6 +340,7 @@
         <div class="prof-meta">
           <div id="profName" class="prof-name"></div>
           <span id="profBadge" class="role-badge"></span>
+          <div id="profRatingDisplay" class="rating-display" style="margin-top:6px"></div>
         </div>
       </div>
       <div class="detail-card">
@@ -361,11 +370,20 @@
           <p class="cv-hint">PDF only &bull; Max 400KB &bull; Visible to employers when you apply</p>
         </div>
       </div>
-      <button type="button" class="btn-outline" id="btnLogout" style="width:100%;margin-bottom:10px">Sign Out</button>
+      <!-- Artisan's reviews on their own profile -->
+      <div id="myReviewsSection" style="display:none">
+        <div class="s-hdr" style="margin-top:14px">
+          <span class="s-ttl">My Reviews</span>
+          <span id="myReviewCount" class="cnt-badge">0</span>
+        </div>
+        <div id="myReviewsList"></div>
+      </div>
+      <button type="button" class="btn-outline" id="btnLogout" style="width:100%;margin-bottom:10px;margin-top:14px">Sign Out</button>
       <button type="button" class="btn-danger-outline" id="btnDeleteAcct">&#128465; Delete My Account</button>
     </div>
 
-  </div>
+  </div><!-- end page-area -->
+
   <nav class="btm-nav">
     <button type="button" id="bnHome"    class="bn active"><span class="bn-ico">&#127968;</span><span class="bn-lbl">Home</span></button>
     <button type="button" id="bnSearch"  class="bn"><span class="bn-ico">&#128269;</span><span class="bn-lbl">Search</span></button>
@@ -374,7 +392,7 @@
   </nav>
 </div>
 
-<!-- ===== 7. ADMIN ===== -->
+<!-- ADMIN -->
 <div id="adminApp" class="screen">
   <header class="admin-hdr">
     <div class="hdr-l"><span class="hdr-ico">&#9965;</span><span class="hdr-nm">Admin Panel</span></div>
@@ -392,26 +410,10 @@
       <div class="a-section-title" style="margin-top:16px">Recent Registrations</div>
       <div id="dashRecent"></div>
     </div>
-    <div id="adArtisans" class="apage">
-      <div class="a-srch"><input type="text" id="artSrch" placeholder="Search artisans..."></div>
-      <div id="artisanList" class="admin-list"></div>
-    </div>
-    <div id="adClients" class="apage">
-      <div class="a-srch"><input type="text" id="cliSrch" placeholder="Search clients..."></div>
-      <div id="clientList" class="admin-list"></div>
-    </div>
-    <div id="adReports" class="apage">
-      <select class="rep-filter" id="repFilter">
-        <option value="pending">Pending Reports</option>
-        <option value="resolved">Resolved Reports</option>
-        <option value="all">All Reports</option>
-      </select>
-      <div id="reportsList" class="admin-list"></div>
-    </div>
-    <div id="adJobs" class="apage">
-      <div class="a-section-title">All Platform Jobs</div>
-      <div id="adminJobGrid" class="job-grid"></div>
-    </div>
+    <div id="adArtisans" class="apage"><div class="a-srch"><input type="text" id="artSrch" placeholder="Search artisans..."></div><div id="artisanList" class="admin-list"></div></div>
+    <div id="adClients"  class="apage"><div class="a-srch"><input type="text" id="cliSrch" placeholder="Search clients..."></div><div id="clientList" class="admin-list"></div></div>
+    <div id="adReports"  class="apage"><select class="rep-filter" id="repFilter"><option value="pending">Pending</option><option value="resolved">Resolved</option><option value="all">All Reports</option></select><div id="reportsList" class="admin-list"></div></div>
+    <div id="adJobs"     class="apage"><div class="a-section-title">All Platform Jobs</div><div id="adminJobGrid" class="job-grid"></div></div>
   </div>
   <nav class="admin-nav">
     <button type="button" id="anDash"     class="an active"><span class="an-ico">&#128202;</span><span class="an-lbl">Dashboard</span></button>
@@ -425,11 +427,41 @@
 </div><!-- end #app -->
 
 <!-- MODALS -->
-<div id="termsModal" class="modal-ov" style="display:none"><div class="modal-box terms-modal"><h3>&#128220; Terms and Conditions</h3><div class="terms-scroll"><p><strong>1. Eligibility.</strong> Users must be at least 18 years of age and reside in Nigeria to register.</p><p><strong>2. Artisan Qualification.</strong> Artisans must hold a minimum SSCE/WAEC qualification. False information leads to suspension.</p><p><strong>3. Role Restriction.</strong> Artisans may only apply for jobs matching their registered trade category.</p><p><strong>4. Unique Identity.</strong> Each email and username may only be used for one account. You cannot register as both artisan and client.</p><p><strong>5. Accurate Information.</strong> All information must be truthful. Misrepresentation leads to account termination.</p><p><strong>6. Conduct.</strong> Harassment, threats, or abuse results in immediate suspension.</p><p><strong>7. Reporting.</strong> Report misconduct through the platform. False reports are also a violation.</p><p><strong>8. Admin Oversight.</strong> The ProxiCraft admin may suspend or permanently delete any account violating these terms.</p><p><strong>9. Account Deletion.</strong> Users may delete their account at any time from their profile. All data is permanently removed.</p><p><strong>10. Data and Privacy.</strong> Data is stored securely on Google Firebase and used only to operate the platform.</p></div><button type="button" class="btn-primary" id="btnCloseTerms">&#10003; I Understand</button></div></div>
+<div id="termsModal"      class="modal-ov" style="display:none"><div class="modal-box terms-modal"><h3>&#128220; Terms and Conditions</h3><div class="terms-scroll"><p><strong>1.</strong> Users must be 18+ and reside in Nigeria.</p><p><strong>2.</strong> Artisans must hold minimum SSCE/WAEC qualification.</p><p><strong>3.</strong> Artisans may only apply for jobs matching their registered trade.</p><p><strong>4.</strong> Each email and username may only be used for one account.</p><p><strong>5.</strong> All information must be truthful. Misrepresentation leads to termination.</p><p><strong>6.</strong> Harassment or abuse results in immediate suspension.</p><p><strong>7.</strong> Report misconduct through the platform.</p><p><strong>8.</strong> The admin may suspend or delete any account violating these terms.</p><p><strong>9.</strong> Account deletion removes all data permanently from the cloud database.</p><p><strong>10.</strong> Data is stored securely on Google Firebase and used only to operate the platform.</p></div><button type="button" class="btn-primary" id="btnCloseTerms">&#10003; I Understand</button></div></div>
+
 <div id="jobModal" class="modal-ov" style="display:none"><div class="modal-sheet"><button type="button" class="modal-x" id="btnCloseJob">&#10005;</button><div id="jobModalBody" class="modal-body"></div></div></div>
-<div id="reportModal" class="modal-ov" style="display:none"><div class="modal-box"><h3>&#9888; Report a User</h3><div id="reportTargetLbl" class="rep-target-lbl"></div><input type="hidden" id="reportedId"><div class="fgroup"><label>Reason *</label><select id="repReason"><option value="">-- Select reason --</option><option value="Fraud or Misrepresentation">Fraud or Misrepresentation</option><option value="Harassment or Threats">Harassment or Threatening Behaviour</option><option value="False Qualification">False Qualification or Identity</option><option value="Unprofessional Conduct">Unprofessional Conduct</option><option value="Other">Other</option></select></div><div class="fgroup"><label>Details *</label><textarea id="repDetails" rows="4" placeholder="Describe the issue..."></textarea></div><div id="repErr" class="ferr"></div><div class="modal-btns"><button type="button" class="btn-outline" id="btnCancelRep">Cancel</button><button type="button" class="btn-danger-sm" id="btnSubmitRep">Submit Report</button></div></div></div>
-<div id="deleteModal" class="modal-ov" style="display:none"><div class="modal-box"><h3>&#128465; Delete Account</h3><div class="del-warning">This action is <strong>permanent and cannot be undone</strong>. All your data will be permanently removed from the database.</div><div class="fgroup"><label>Enter your password to confirm</label><div class="pw-wrap"><input type="password" id="delPass" placeholder="Your current password"><button type="button" class="pw-eye" id="eyeDelPass">&#128065;</button></div></div><label class="check-row"><input type="checkbox" id="delChk"> I understand this is permanent and irreversible.</label><div id="delErr" class="ferr"></div><div class="modal-btns"><button type="button" class="btn-outline" id="btnCancelDel">Cancel</button><button type="button" class="btn-danger-sm" id="btnConfirmDel">Delete Account</button></div></div></div>
+
+<div id="artisanProfileModal" class="modal-ov" style="display:none"><div class="modal-sheet"><button type="button" class="modal-x" id="btnCloseArtProfile">&#10005;</button><div id="artisanProfileBody" class="modal-body"></div></div></div>
+
+<div id="ratingModal" class="modal-ov" style="display:none">
+  <div class="modal-box">
+    <h3>&#11088; Rate this Artisan</h3>
+    <div id="ratingTargetName" class="rep-target-lbl"></div>
+    <input type="hidden" id="ratingArtisanId">
+    <div class="star-row">
+      <button type="button" class="star" data-v="1">&#9733;</button>
+      <button type="button" class="star" data-v="2">&#9733;</button>
+      <button type="button" class="star" data-v="3">&#9733;</button>
+      <button type="button" class="star" data-v="4">&#9733;</button>
+      <button type="button" class="star" data-v="5">&#9733;</button>
+    </div>
+    <div id="ratingScoreLabel" style="text-align:center;font-size:13px;color:var(--sub);margin-bottom:10px">Tap a star to rate</div>
+    <div class="fgroup"><label>Review <span class="hint-label">Optional</span></label>
+      <textarea id="ratingReview" rows="3" placeholder="Share your experience with this artisan..."></textarea></div>
+    <div id="ratingErr" class="ferr"></div>
+    <div class="modal-btns">
+      <button type="button" class="btn-outline" id="btnCancelRating">Cancel</button>
+      <button type="button" class="btn-primary" id="btnSubmitRating">Submit Rating</button>
+    </div>
+  </div>
+</div>
+
+<div id="reportModal" class="modal-ov" style="display:none"><div class="modal-box"><h3>&#9888; Report a User</h3><div id="reportTargetLbl" class="rep-target-lbl"></div><input type="hidden" id="reportedId"><div class="fgroup"><label>Reason *</label><select id="repReason"><option value="">-- Select reason --</option><option value="Fraud or Misrepresentation">Fraud or Misrepresentation</option><option value="Harassment or Threats">Harassment or Threatening Behaviour</option><option value="False Qualification">False Qualification or Identity</option><option value="Unprofessional Conduct">Unprofessional Conduct</option><option value="Other">Other</option></select></div><div class="fgroup"><label>Details *</label><textarea id="repDetails" rows="4" placeholder="Describe the issue..."></textarea></div><div id="repErr" class="ferr"></div><div class="modal-btns"><button type="button" class="btn-outline" id="btnCancelRep">Cancel</button><button type="button" class="btn-danger-sm" id="btnSubmitRep">Submit</button></div></div></div>
+
+<div id="deleteModal" class="modal-ov" style="display:none"><div class="modal-box"><h3>&#128465; Delete Account</h3><div class="del-warning">This action is <strong>permanent and cannot be undone</strong>. All your data will be permanently removed from the database.</div><div class="fgroup"><label>Enter your password to confirm</label><div class="pw-wrap"><input type="password" id="delPass" placeholder="Your current password"><button type="button" class="pw-eye" id="eyeDelPass">&#128065;</button></div></div><label class="check-row"><input type="checkbox" id="delChk"> I understand this is permanent.</label><div id="delErr" class="ferr"></div><div class="modal-btns"><button type="button" class="btn-outline" id="btnCancelDel">Cancel</button><button type="button" class="btn-danger-sm" id="btnConfirmDel">Delete</button></div></div></div>
+
 <div id="imgModal" class="modal-ov" style="display:none"><div class="modal-box"><h3>&#128247; Update Profile Photo</h3><div class="img-preview-wrap"><div id="imgPreview" class="img-preview">&#128100;</div></div><input type="file" id="imgInput" accept="image/*" style="display:none"><button type="button" class="btn-outline" id="btnPickImg">Choose Photo</button><div id="imgErr" class="ferr"></div><div class="modal-btns"><button type="button" class="btn-outline" id="btnCancelImg">Cancel</button><button type="button" class="btn-primary" id="btnSavePhoto">Save Photo</button></div></div></div>
+
 <div id="userDetailModal" class="modal-ov" style="display:none"><div class="modal-box"><div id="userDetailBody"></div><div id="userDetailActions" class="modal-btns"></div></div></div>
 
 <div id="toast" class="toast"></div>
